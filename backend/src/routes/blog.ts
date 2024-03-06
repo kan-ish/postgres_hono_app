@@ -15,19 +15,24 @@ const blogRouter = new Hono<{
 
 // Auth middleware
 blogRouter.use("/*", async (c, next) => {
-	const jwt = c.req.header("Authorization");
-	if (!jwt) {
-		c.status(401);
-		return c.json({ error: "unauthorized" });
+	try {
+		const jwt = c.req.header("Authorization");
+		if (!jwt) {
+			c.status(401);
+			return c.json({ error: "unauthorized" });
+		}
+		const token = jwt.split(" ")[1];
+		const payload = await verify(token, c.env.JWT_SECRET);
+		if (!payload) {
+			c.status(401);
+			return c.json({ error: "unauthorized" });
+		}
+		c.set("userId", payload.id);
+		await next();
+	} catch (err) {
+		c.status(403);
+		c.json({ message: "You are not logged in." });
 	}
-	const token = jwt.split(" ")[1];
-	const payload = await verify(token, c.env.JWT_SECRET);
-	if (!payload) {
-		c.status(401);
-		return c.json({ error: "unauthorized" });
-	}
-	c.set("userId", payload.id);
-	await next();
 });
 
 blogRouter.post("/", async (c) => {
