@@ -28,16 +28,18 @@ blogRouter.use("/*", async (c, next) => {
 });
 
 blogRouter.post("/", async (c) => {
-	const body = await c.req.json();
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
+
+	const userId = c.get("jwtPayload")
+	const body = await c.req.json()
 
 	const blog = await prisma.post.create({
 		data: {
 			title: body.title,
 			content: body.content,
-			authorId: "1",
+			authorId: userId,
 		},
 	});
 
