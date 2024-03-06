@@ -68,8 +68,19 @@ blogRouter.put("/api/v1/blog/", async (c) => {
 	return c.json({ message: `Updated blog ${blog.id}` });
 });
 
-blogRouter.get("/api/v1/blog/:id", (c) => {
-	return c.text("get blog by id route");
+blogRouter.get("/:id", async (c) => {
+	const id = c.req.param("id");
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const blog = await prisma.post.findUnique({
+		where: {
+			id,
+		},
+	});
+
+	return c.json({ blog })
 });
 
 blogRouter.get("/api/v1/blog/bulk", (c) => {
