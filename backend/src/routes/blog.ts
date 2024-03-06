@@ -46,8 +46,26 @@ blogRouter.post("/", async (c) => {
 	return c.json({ id: blog.id });
 });
 
-blogRouter.put("/api/v1/blog/", (c) => {
-	return c.text("signin route");
+blogRouter.put("/api/v1/blog/", async (c) => {
+	const prisma = new PrismaClient({
+		datasourceUrl: c.env?.DATABASE_URL,
+	}).$extends(withAccelerate());
+
+	const body = await c.req.json();
+	const userId = c.get("jwtPayload");
+
+	const blog = await prisma.post.update({
+		where: {
+			id: body.id,
+			authorId: userId,
+		},
+		data: {
+			title: body.title,
+			content: body.content,
+		},
+	});
+
+	return c.json({ message: `Updated blog ${blog.id}` });
 });
 
 blogRouter.get("/api/v1/blog/:id", (c) => {
