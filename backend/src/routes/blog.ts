@@ -8,6 +8,9 @@ const blogRouter = new Hono<{
 		DATABASE_URL: string;
 		JWT_SECRET: string;
 	};
+	Variables: {
+		"userId": string
+	}
 }>();
 
 // Auth middleware
@@ -23,7 +26,7 @@ blogRouter.use("/*", async (c, next) => {
 		c.status(401);
 		return c.json({ error: "unauthorized" });
 	}
-	c.set("jwtPayload", payload.id);
+	c.set("userId", payload.id);
 	await next();
 });
 
@@ -32,7 +35,7 @@ blogRouter.post("/", async (c) => {
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
 
-	const userId = c.get("jwtPayload")
+	const userId = c.get("userId")
 	const body = await c.req.json()
 
 	const blog = await prisma.post.create({
@@ -52,7 +55,7 @@ blogRouter.put("/api/v1/blog/", async (c) => {
 	}).$extends(withAccelerate());
 
 	const body = await c.req.json();
-	const userId = c.get("jwtPayload");
+	const userId = c.get("userId");
 
 	const blog = await prisma.post.update({
 		where: {
