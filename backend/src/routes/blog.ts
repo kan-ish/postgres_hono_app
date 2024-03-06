@@ -31,7 +31,7 @@ blogRouter.use("/*", async (c, next) => {
 		await next();
 	} catch (err) {
 		c.status(403);
-		c.json({ message: "You are not logged in." });
+		return c.json({ message: "You are not logged in." });
 	}
 });
 
