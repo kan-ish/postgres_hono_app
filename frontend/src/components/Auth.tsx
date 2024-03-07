@@ -1,13 +1,23 @@
 import { ChangeEvent, useState } from "react";
-import { SignupInput } from "@kanishk198/validator-common";
+import { SignupInput, SigninInput } from "@kanishk198/validator-common";
 import { Link } from "react-router-dom";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
-	const [postInputs, setPostInputs] = useState<SignupInput>({
-		email: "",
-		name: "",
-		password: "",
-	});
+	type AuthType = typeof type
+	type PostInputType = AuthType extends "signin" ? SigninInput : SignupInput
+
+	const [postInputs, setPostInputs] = useState<PostInputType>(
+		type === "signup"
+			? {
+					email: "",
+					name: "",
+					password: "",
+			  }
+			: {
+					email: "",
+					password: "",
+			  }
+	);
 
 	return (
 		<div className="h-screen flex justify-center flex-col">
@@ -28,16 +38,18 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 					</div>
 
 					<div>
-						<LabelledInput
-							label="Name"
-							placeholder="Name"
-							onChange={(e) => {
-								setPostInputs((state) => ({
-									...state,
-									name: e.target.value,
-								}));
-							}}
-						/>
+						{type === "signup" && (
+							<LabelledInput
+								label="Name"
+								placeholder="Name"
+								onChange={(e) => {
+									setPostInputs((state) => ({
+										...state,
+										name: e.target.value,
+									}));
+								}}
+							/>
+						)}
 
 						<LabelledInput
 							label="Email"
