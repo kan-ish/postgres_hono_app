@@ -29,7 +29,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 				`${BACKEND_URL}/api/v1/user/${type}`,
 				postInputs
 			);
-			const jwt = res.data.jwt;
+			const { jwt } = res.data;
 			console.log(jwt);
 
 			localStorage.setItem("token", jwt);
