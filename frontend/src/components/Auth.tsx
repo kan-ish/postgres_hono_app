@@ -1,11 +1,15 @@
 import { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SignupInput, SigninInput } from "@kanishk198/validator-common";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export const Auth = ({ type }: { type: "signup" | "signin" }) => {
+	const navigate = useNavigate()
+
 	type AuthType = typeof type
 	type PostInputType = AuthType extends "signin" ? SigninInput : SignupInput
-
 	const [postInputs, setPostInputs] = useState<PostInputType>(
 		type === "signup"
 			? {
@@ -18,6 +22,22 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 					password: "",
 			  }
 	);
+
+	async function handleSubmit() {
+		try {
+			const res = await axios.post(
+				`${BACKEND_URL}/api/v1/user/${type}`,
+				postInputs
+			);
+			const jwt = res.data.jwt;
+			console.log(jwt);
+
+			localStorage.setItem("token", jwt);
+			navigate("/blogs");
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	return (
 		<div className="h-screen flex justify-center flex-col">
@@ -76,7 +96,9 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
 
 						<button
 							type="button"
-							className="w-full mt-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
+							className="w-full mt-8 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 "
+							onClick={handleSubmit}
+							>
 							{type === "signup" ? "Signup" : "Signin"}
 						</button>
 					</div>
@@ -102,14 +124,14 @@ function LabelledInput({
 	return (
 		<div>
 			<label
-				htmlFor="first_name"
+				htmlFor={label}
 				className="block mb-2 text-sm font-semibold text-black mt-2">
 				{label}
 			</label>
 
 			<input
 				type={type || "text"}
-				id="first_name"
+				id={label}
 				className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 				placeholder={placeholder}
 				required
