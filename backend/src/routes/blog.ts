@@ -54,7 +54,7 @@ blogRouter.post("/", async (c) => {
 	return c.json({ id: blog.id });
 });
 
-blogRouter.put("/api/v1/blog/", async (c) => {
+blogRouter.put("/", async (c) => {
 	const prisma = new PrismaClient({
 		datasourceUrl: c.env?.DATABASE_URL,
 	}).$extends(withAccelerate());
