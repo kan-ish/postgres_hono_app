@@ -1,33 +1,34 @@
 import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
+import { useGetBlogs } from "../hooks";
 
 export default function AllBlogs() {
+	const { loading, blogs } = useGetBlogs()
+	
+	if (loading) {
+		return (
+			<div>
+				loading...
+			</div>
+		)
+	}
+
 	return (
 		<div>
 			<Appbar />
 
 			<div className="flex justify-center">
 				<div className="max-w-xl">
-					<BlogCard
-						authorName={"Kanishk Singh"}
-						title={"Bending pause times to your will with Generational ZGC"}
-						content={"Bending pause times to your will with Generational ZGC"}
-						publishedDate={"1 minute ago"}
-					/>
-
-					<BlogCard
-						authorName={"Kanishk Singh"}
-						title={"Bending pause times to your will with Generational ZGC"}
-						content={"Bending pause times to your will with Generational ZGC"}
-						publishedDate={"1 minute ago"}
-					/>
-
-					<BlogCard
-						authorName={"Kanishk Singh"}
-						title={"Bending pause times to your will with Generational ZGC"}
-						content={"Bending pause times to your will with Generational ZGC"}
-						publishedDate={"1 minute ago"}
-					/>
+					{blogs.map(blog => (
+						<BlogCard
+							key={blog.id}
+							id={blog.id}
+							authorName={blog.author.name || "Anonymous"}
+							title={blog.title}
+							content={blog.content}
+							publishedDate={"1 minute ago"}
+						/>
+					))}
 				</div>
 			</div>
 		</div>
