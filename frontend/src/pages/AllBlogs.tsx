@@ -5,8 +5,8 @@ export default function AllBlogs() {
 		<div>
 			<BlogCard
 				authorName={"Kanishk Singh"}
-				title={"Some Title"}
-				content={"Lorem ipsum dolor sit amet"}
+				title={"Bending pause times to your will with Generational ZGC"}
+				content={"Bending pause times to your will with Generational ZGC"}
 				publishedDate={"1 minute ago"}
 			/>
 		</div>
