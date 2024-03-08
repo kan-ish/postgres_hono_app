@@ -1,3 +1,5 @@
+import { Avatar } from "./Avatar";
+
 interface BlogCardPropsType {
 	authorName: string;
 	title: string;
@@ -41,25 +43,6 @@ export const BlogCard = ({
         </div>
 	);
 };
-
-function Avatar({ name }: { name: string }) {
-	const nameList = name.split(" ");
-
-	return (
-		<div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-700 rounded-full">
-			<span className="text-xs font-normal text-slate-300">
-				{nameList.length > 1 ? (
-					<>
-						{nameList[0][0].toUpperCase()}
-						{nameList[nameList.length - 1][0].toUpperCase()}
-					</>
-				) : (
-					nameList[0][0].toUpperCase()
-				)}
-			</span>
-		</div>
-	);
-}
 
 export function Circle() {
     return <div className="h-1 w-1 rounded-full bg-slate-500"></div>;
