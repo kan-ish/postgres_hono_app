@@ -33,3 +33,26 @@ export const useGetBlogs = () => {
 		blogs,
 	};
 };
+
+export const useGetBlog = ({ id }: { id: string }) => {
+	const [loading, setLoading] = useState(true);
+	const [blog, setBlog] = useState<BlogType>();
+
+	useEffect(() => {
+		axios
+			.get(`${BACKEND_URL}/api/v1/blog/${id}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`,
+				},
+			})
+			.then((response) => {
+				setBlog(response.data.blog);
+				setLoading(false);
+			});
+	}, [id]);
+
+	return {
+		loading,
+		blog,
+	};
+};
