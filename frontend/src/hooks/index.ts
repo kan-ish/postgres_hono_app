@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 
-interface BlogType {
+export interface BlogType {
 	content: string;
 	title: string;
 	id: string;
