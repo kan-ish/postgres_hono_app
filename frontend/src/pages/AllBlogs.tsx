@@ -1,7 +1,7 @@
 import { Appbar } from "../components/Appbar";
 import { BlogCard } from "../components/BlogCard";
 import { useGetBlogs } from "../hooks";
-import { BlogSkeleton } from "../components/BlogSkeleton";
+import { BlogCardSkeleton } from "../components/BlogCardSkeleton";
 
 export default function AllBlogs() {
 	const { loading, blogs } = useGetBlogs()
@@ -13,9 +13,9 @@ export default function AllBlogs() {
 
 				<div className="flex justify-center">
 					<div className="max-w-xl">
-						<BlogSkeleton />
-						<BlogSkeleton />
-						<BlogSkeleton />
+						<BlogCardSkeleton />
+						<BlogCardSkeleton />
+						<BlogCardSkeleton />
 					</div>
 				</div>
 			</div>
