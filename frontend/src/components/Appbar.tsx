@@ -7,7 +7,7 @@ export const Appbar = () => {
 			<Link
 				to={"/blogs"}
 				className="flex flex-col justify-center cursor-pointer">
-				<div className="flex flex-col justify-center">Medium Rare</div>
+					Medium Rare
 			</Link>
 
 			<div className="flex">
