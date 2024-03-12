@@ -6,9 +6,10 @@ export const FullBlog = ({ blog }: {blog: BlogType}) => {
 	return (
 		<div>
 			<Appbar />
+
 			<div className="flex justify-center">
-				<div className="grid grid-cols-12 px-10 w-full pt-200 max-w-screen-xl pt-12">
-					<div className="col-span-8">
+				<div className="grid grid-cols-12 px-10 w-full max-w-screen-xl pt-12">
+					<div className="col-span-8 mr-20">
 						<div className="text-5xl font-extrabold">
 							{blog.title || "Anonymous"}
 						</div>
